@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6841 Student Tutor Forum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="{{ url_for('home') if 'user_id' in session else url_for('login') }}">6841 Student Tutor Forum</a></h1>
+            <nav>
+                {% if 'user_id' in session %}
+                    <a href="{{ url_for('new_post') }}" class="button">New Post</a>
+                    <a href="{{ url_for('profile', user_id=session['user_id']) }}" class="button">User Profile</a>
+                    {% if session['role'] == 'admin' %}
+                        <a href="{{ url_for('admin') }}" class="button">Admin Panel</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="button button-outline">Log Out</a>
+                {% else %}
+                    <a href="#" id="login-btn" class="button active">Login</a>
+                    <a href="#" id="register-btn" class="button button-outline">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

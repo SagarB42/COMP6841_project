@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Welcome, {{ username }}!</h2>
+<hr>
+<div class="post-list">
+    {% if is_admin %}
+        <h3>Admin View: All User Posts</h3>
+    {% else %}
+        <h3>My Posts</h3>
+    {% endif %}
+
+    {% for post in my_posts %}
+    <div class="post-summary my-post">
+        <div class="post-actions">
+            <a href="{{ url_for('edit_post', post_id=post.id) }}" class="button-small">Edit</a>
+            <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post" style="display:inline;">
+                <button type="submit" class="button-small button-danger">Delete</button>
+            </form>
+        </div>
+        <h3><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a> {% if post.visibility == 'private' %}<span class="visibility-tag">(Private)</span>{% endif %}</h3>
+        <p class="post-meta">by {{ post.author }} on {{ post.timestamp.split(' ')[0] }}</p>
+        <p>{{ post.content | safe | truncate(150) }}</p>
+    </div>
+    {% else %}
+    <p>You haven't created any posts yet.</p>
+    {% endfor %}
+</div>
+<hr>
+<div class="search-bar">
+    <form action="{{ url_for('home') }}" method="get">
+        <input type="text" name="search" placeholder="Search all public posts by title..." value="{{ search_query or '' }}">
+        <button type="submit" class="button">Search</button>
+    </form>
+</div>
+<div class="post-list">
+    <h3>All Public Posts</h3>
+    {% for post in public_posts %}
+    <div class="post-summary">
+        <h3><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h3>
+        <p class="post-meta">by {{ post.author }} on {{ post.timestamp.split(' ')[0] }}</p>
+        <p>{{ post.content | safe | truncate(150) }}</p>
+    </div>
+    {% else %}
+    <p>No public posts found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

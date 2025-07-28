@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="auth-container">
+    <div id="login-form" class="auth-form">
+        <h2>Login</h2>
+        {% if error %}
+            <p class="flash error">{{ error }}</p>
+        {% endif %}
+        <form action="{{ url_for('login') }}" method="post">
+            <div class="form-group">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" required>
+            </div>
+            <button type="submit" class="button button-primary">Login</button>
+        </form>
+    </div>
+    <div id="register-form" class="auth-form" style="display: none;">
+        <h2>Register</h2>
+        <form action="{{ url_for('register') }}" method="post">
+            <div class="form-group">
+                <label for="reg-username">Username</label>
+                <input type="text" id="reg-username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="reg-retype-password">Retype Password</label>
+                <input type="password" id="reg-retype-password" name="retype_password" required>
+            </div>
+            <button type="submit" class="button button-primary">Register</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById('login-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('register-form').style.display = 'none';
+        this.classList.add('active');
+        document.getElementById('register-btn').classList.remove('active');
+    });
+
+    document.getElementById('register-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'block';
+        this.classList.add('active');
+        document.getElementById('login-btn').classList.remove('active');
+    });
+</script>
+{% endblock %}
