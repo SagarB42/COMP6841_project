@@ -19,7 +19,7 @@
         </div>
         <h3><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a> {% if post.visibility == 'private' %}<span class="visibility-tag">(Private)</span>{% endif %}</h3>
         <p class="post-meta">by {{ post.author }} on {{ post.timestamp.split(' ')[0] }}</p>
-        <p>{{ post.content | safe | truncate(150) }}</p>
+        <p>{{ post.content | truncate(150) }}</p>
     </div>
     {% else %}
     <p>You haven't created any posts yet.</p>
@@ -38,7 +38,7 @@
     <div class="post-summary">
         <h3><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h3>
         <p class="post-meta">by {{ post.author }} on {{ post.timestamp.split(' ')[0] }}</p>
-        <p>{{ post.content | safe | truncate(150) }}</p>
+        <p>{{ post.content | truncate(150) }}</p>
     </div>
     {% else %}
     <p>No public posts found.</p>
